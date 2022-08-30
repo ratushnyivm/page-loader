@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
 
+from page_loader.cli import parse_input
+
+
 def main():
-    pass
+    args = parse_input()
+    print(args)
 
 
 if __name__ == '__main__':
