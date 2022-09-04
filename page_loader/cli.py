@@ -1,4 +1,5 @@
 import argparse
+import os
 
 
 def parse_input():
@@ -7,16 +8,19 @@ def parse_input():
     )
 
     parser.add_argument(
-        'file_path',
+        'url',
         type=str,
     )
 
     parser.add_argument(
-        '--output',
+        '-o', '--output',
         help='TODO',
-        # choices=[STYLISH, PLAIN, JSON],
-        # default=STYLISH,
+        default=os.getcwd(),
     )
     args = parser.parse_args()
 
     return args
+
+
+x = parse_input()
+print(x)
