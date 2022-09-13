@@ -20,7 +20,3 @@ def parse_input():
     args = parser.parse_args()
 
     return args
-
-
-x = parse_input()
-print(x)
