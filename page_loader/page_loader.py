@@ -6,14 +6,20 @@ import re
 def generate_file_name(url: str, output: str) -> str:
     delete_scheme = re.sub(r'((.*?)//)', '', url)
     delete_extension = os.path.splitext(delete_scheme)[0]
-    new_url = re.sub(r'[^\dA-Za-z]', '-', delete_extension)
-    return new_url if output == os.getcwd() else os.path.join(output, new_url)
+
+    name = re.sub(r'[^\dA-Za-z]', '-', delete_extension)
+    full_name = f'{name}.html'
+
+    new_path = full_name if output == os.getcwd() \
+        else os.path.join(output, full_name)
+
+    return os.path.abspath(new_path)
 
 
 def download(url, file_path):
     r = requests.get(url)
 
-    file_name = f'{generate_file_name(url, file_path)}.html'
+    file_name = generate_file_name(url, file_path)
 
     with open(file_name, 'w', encoding="utf-8") as x:
         x.write(r.text)
