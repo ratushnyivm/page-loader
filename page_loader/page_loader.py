@@ -17,11 +17,11 @@ def generate_file_name(url: str, output: str) -> str:
 
 
 def download(url, file_path):
-    r = requests.get(url)
+    resp = requests.get(url)
 
     file_name = generate_file_name(url, file_path)
 
-    with open(file_name, 'w', encoding="utf-8") as x:
-        x.write(r.text)
+    with open(file_name, 'w', encoding="utf-8") as f:
+        f.write(resp.text)
 
     return file_name
