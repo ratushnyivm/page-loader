@@ -23,10 +23,9 @@ def test_download():
 
     with requests_mock.Mocker() as m:
         m.get(URL, text=data)
+        download(URL, './tests/fixtures')
 
-    download(URL, './tests/fixtures')
-
-    with open('tests/fixtures/ru-hexlet-io-courses_test.html') as f:
-        data_before = f.read()
+    with open('tests/fixtures/ru-hexlet-io-courses.html') as x:
+        data_before = x.read()
 
     assert data_before == data
