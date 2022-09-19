@@ -1,6 +1,7 @@
 import os
-import requests
 import re
+
+import requests
 
 
 def generate_file_name(url: str, output: str) -> str:

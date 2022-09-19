@@ -1,8 +1,8 @@
 import os
-import requests_mock
-from page_loader.page_loader import generate_file_name
-from page_loader.page_loader import download
+import tempfile
 
+import requests_mock
+from page_loader.page_loader import download, generate_file_name
 
 URL = 'https://ru.hexlet.io/courses'
 NAME = 'ru-hexlet-io-courses.html'
@@ -23,9 +23,11 @@ def test_download():
 
     with requests_mock.Mocker() as m:
         m.get(URL, text=data)
-        download(URL, './tests/fixtures')
 
-    with open('tests/fixtures/ru-hexlet-io-courses.html') as x:
-        data_before = x.read()
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            download(URL, tmpdirname)
+
+            with open(os.path.join(tmpdirname, NAME)) as x:
+                data_before = x.read()
 
     assert data_before == data
