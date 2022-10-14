@@ -57,3 +57,6 @@ def test_download_image(fake_source):
         path_1 = download_image(URL_TO_IMAGE, tmpdirname)
         path_2 = os.path.join(tmpdirname, f'{NAME_TO_IMAGE}')
         assert path_1 == path_2
+
+        with open(path_1, "rb") as file:
+            assert file.read() == requests.get(URL_TO_IMAGE).content
