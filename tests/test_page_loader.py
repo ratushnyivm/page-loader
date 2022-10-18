@@ -4,6 +4,7 @@ import tempfile
 import pytest
 import requests
 from page_loader.page_loader import (
+    download,
     download_resources,
     generate_file_name,
     make_dir,
@@ -28,6 +29,7 @@ PATH_TO_FIXTURES = 'tests/fixtures'
 
 PATH = {
     'css': os.path.join(PATH_TO_FIXTURES, NAME['dir'], NAME['css']),
+    'dir': os.path.join(PATH_TO_FIXTURES, NAME['dir']),
     'html_before': os.path.join(PATH_TO_FIXTURES, NAME['dir'], NAME['html']),
     'html_after': os.path.join(PATH_TO_FIXTURES, NAME['html']),
     'image': os.path.join(PATH_TO_FIXTURES, NAME['dir'], NAME['image']),
@@ -90,3 +92,22 @@ def test_download_resources(fake_source):
 
         with open(path_1, "rb") as file:
             assert file.read() == requests.get(URL['js']).content
+
+
+def test_download(fake_source):
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        path_received = download(URL['html'], tmpdirname)
+        path_expected = os.path.join(tmpdirname, NAME['html'])
+        assert path_received == path_expected
+
+        assert len(os.listdir(tmpdirname)) == len(os.listdir(PATH_TO_FIXTURES))
+        assert os.path.isfile(path_expected)
+        assert os.path.dirname(os.path.join(tmpdirname, NAME['dir']))
+
+        with open(path_received, encoding="utf-8") as file_received:
+            with open(PATH['html_after'], encoding="utf-8") as file_expected:
+                assert file_received.read() == file_expected.read()
+
+        files_dir_received = os.listdir(os.path.join(tmpdirname, NAME['dir']))
+        files_dir_expected = os.listdir(PATH['dir'])
+        assert files_dir_received == files_dir_expected

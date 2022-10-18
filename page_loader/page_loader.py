@@ -81,10 +81,8 @@ def change_tags(
 
 def download(url, file_path):
     path_to_html = download_resources(url, file_path)
-
     path_to_dir = make_dir(url, file_path)
-
-    relative_path_to_dir = f'./{os.path.split(path_to_dir)[1]}'
+    relative_path_to_dir = f'{os.path.basename(path_to_dir)}'
 
     with open(path_to_html, encoding="utf-8") as f:
         html_doc = f.read()
