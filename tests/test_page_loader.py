@@ -4,10 +4,7 @@ import tempfile
 import pytest
 import requests
 from page_loader.page_loader import (
-    download_html,
-    download_image,
-    download_link,
-    download_script,
+    download_resources,
     generate_file_name,
     make_dir,
 )
@@ -61,39 +58,33 @@ def test_make_dir(fake_source):
         assert path_1 == path_2
 
 
-def test_download_html(fake_source):
+def test_download_resources(fake_source):
     with tempfile.TemporaryDirectory() as tmpdirname:
-        path_1 = download_html(URL['html'], tmpdirname)
-        path_2 = os.path.join(tmpdirname, NAME['html'])
-        assert path_1 == path_2
-
-        with open(path_1, encoding="utf-8") as file:
-            assert file.read() == requests.get(URL['html']).text
-
-
-def test_download_image(fake_source):
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        path_1 = download_image(URL['image'], tmpdirname)
-        path_2 = os.path.join(tmpdirname, NAME['image'])
-        assert path_1 == path_2
-
-        with open(path_1, "rb") as file:
-            assert file.read() == requests.get(URL['image']).content
-
-
-def test_download_link(fake_source):
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        path_1 = download_link(URL['css'], tmpdirname)
+        path_1 = download_resources(URL['css'], tmpdirname)
         path_2 = os.path.join(tmpdirname, NAME['css'])
         assert path_1 == path_2
 
         with open(path_1, "rb") as file:
             assert file.read() == requests.get(URL['css']).content
 
-
-def test_download_script(fake_source):
     with tempfile.TemporaryDirectory() as tmpdirname:
-        path_1 = download_script(URL['js'], tmpdirname)
+        path_1 = download_resources(URL['html'], tmpdirname)
+        path_2 = os.path.join(tmpdirname, NAME['html'])
+        assert path_1 == path_2
+
+        with open(path_1, encoding="utf-8") as file:
+            assert file.read() == requests.get(URL['html']).text
+
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        path_1 = download_resources(URL['image'], tmpdirname)
+        path_2 = os.path.join(tmpdirname, NAME['image'])
+        assert path_1 == path_2
+
+        with open(path_1, "rb") as file:
+            assert file.read() == requests.get(URL['image']).content
+
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        path_1 = download_resources(URL['js'], tmpdirname)
         path_2 = os.path.join(tmpdirname, NAME['js'])
         assert path_1 == path_2
 
