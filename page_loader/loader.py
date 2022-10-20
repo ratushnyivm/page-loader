@@ -37,19 +37,29 @@ def make_dir(url: str, file_path: str) -> str:
 
 
 def download_resources(url: str, file_path: str) -> str:
-    req = requests.get(url)
-    file_name = generate_file_name(url, file_path)
-    extension = os.path.splitext(file_name)[1]
 
-    if extension == '.html' or extension == '':
-        file_name += '.html'
-        with open(file_name, 'w', encoding="utf-8") as f:
-            f.write(req.text)
-    else:
-        with open(file_name, 'wb') as x:
-            x.write(req.content)
+    try:
+        req = requests.get(url)
+        if req.status_code == requests.codes.ok:
 
-    return file_name
+            file_name = generate_file_name(url, file_path)
+            extension = os.path.splitext(file_name)[1]
+
+            if extension == '.html' or extension == '':
+                file_name += '.html'
+                with open(file_name, 'w', encoding="utf-8") as f:
+                    f.write(req.text)
+            else:
+                with open(file_name, 'wb') as x:
+                    x.write(req.content)
+
+            return file_name
+
+        else:
+            raise requests.exceptions.ConnectionError
+
+    except requests.exceptions.RequestException:
+        raise requests.exceptions.RequestException
 
 
 def change_tags(
