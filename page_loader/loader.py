@@ -4,13 +4,8 @@ from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
-
-HEADERS = {
-    'accept': '*/*',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                  'AppleWebKit/537.36 (KHTML, like Gecko) '
-                  'Chrome/106.0.0.0 Safari/537.36'
-}
+from page_loader.logger import logger
+from progress.bar import ChargingBar
 
 
 def generate_file_name(url: str, output: str) -> str:
@@ -36,11 +31,13 @@ def make_dir(url: str, file_path: str) -> str:
     if not os.path.exists(name):
         os.mkdir(name)
 
+    logger.debug(f'Создана папка по адресу: {name}')
+
     return name
 
 
 def download_resources(url: str, file_path: str) -> str:
-    req = requests.get(url, headers=HEADERS)
+    req = requests.get(url)
     file_name = generate_file_name(url, file_path)
     extension = os.path.splitext(file_name)[1]
 
@@ -76,10 +73,12 @@ def change_tags(
             )
             tag[attribute] = relative_path_to_tag
 
-    return f'Обработаны теги {tag_name}'
-
 
 def download(url, file_path):
+
+    logger.info(f'requested url: {url}')
+    logger.info(f'output path: {file_path}')
+
     path_to_html = download_resources(url, file_path)
     path_to_dir = make_dir(url, file_path)
     relative_path_to_dir = f'{os.path.basename(path_to_dir)}'
@@ -89,34 +88,26 @@ def download(url, file_path):
 
     soup = BeautifulSoup(html_doc, 'html.parser')
 
-    print(change_tags(
-        soup_obj=soup,
-        url=url,
-        tag_name='img',
-        attribute='src',
-        path_to_dir=path_to_dir,
-        relative_path_to_dir=relative_path_to_dir
-    ))
+    dict_tags = {
+        'tag_name': ['img', 'link', 'script'],
+        'attribute': ['src', 'href', 'src'],
+    }
 
-    print(change_tags(
-        soup_obj=soup,
-        url=url,
-        tag_name='link',
-        attribute='href',
-        path_to_dir=path_to_dir,
-        relative_path_to_dir=relative_path_to_dir
-    ))
+    bar = ChargingBar('Downloading:', max=len(dict_tags['tag_name']))
 
-    print(change_tags(
-        soup_obj=soup,
-        url=url,
-        tag_name='script',
-        attribute='src',
-        path_to_dir=path_to_dir,
-        relative_path_to_dir=relative_path_to_dir
-    ))
+    for item in range(len(dict_tags['tag_name'])):
+        change_tags(
+            soup_obj=soup,
+            url=url,
+            tag_name=dict_tags['tag_name'][item],
+            attribute=dict_tags['attribute'][item],
+            path_to_dir=path_to_dir,
+            relative_path_to_dir=relative_path_to_dir
+        )
+        bar.next()
+    bar.finish()
 
     with open(path_to_html, 'w', encoding="utf-8") as f:
         f.write(soup.prettify())
 
-    return path_to_html
+    return f'Page was downloaded as {path_to_html}'
