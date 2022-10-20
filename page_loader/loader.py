@@ -110,4 +110,6 @@ def download(url, file_path):
     with open(path_to_html, 'w', encoding="utf-8") as f:
         f.write(soup.prettify())
 
-    return f'Page was downloaded as {path_to_html}'
+    logger.info(f'Page was downloaded as {path_to_html}\n')
+
+    return path_to_html
