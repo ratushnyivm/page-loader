@@ -21,6 +21,7 @@
 
 ## Demonstration
 
+[![asciicast](https://asciinema.org/a/FMc5h0KycTS4oQhH7NdpUwuOw.svg)](https://asciinema.org/a/FMc5h0KycTS4oQhH7NdpUwuOw)
 ---
 
 The third training project from ["Python developer" course](https://ru.hexlet.io/programs/python)
