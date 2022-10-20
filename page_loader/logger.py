@@ -20,7 +20,7 @@ LOGGING = {
     'loggers': {
         'PageLoader': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         }
     }
 }
