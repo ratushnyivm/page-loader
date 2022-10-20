@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 import requests
-from page_loader.page_loader import (
+from page_loader.loader import (
     download,
     download_resources,
     generate_file_name,
