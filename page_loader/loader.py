@@ -36,30 +36,36 @@ def make_dir(url: str, file_path: str) -> str:
     return name
 
 
-def download_resources(url: str, file_path: str) -> str:
-
+def get_response(url: str) -> requests.Response:
     try:
-        req = requests.get(url)
-        if req.status_code == requests.codes.ok:
-
-            file_name = generate_file_name(url, file_path)
-            extension = os.path.splitext(file_name)[1]
-
-            if extension == '.html' or extension == '':
-                file_name += '.html'
-                with open(file_name, 'w', encoding="utf-8") as f:
-                    f.write(req.text)
-            else:
-                with open(file_name, 'wb') as x:
-                    x.write(req.content)
-
-            return file_name
-
+        response = requests.get(url)
+        if response.status_code == requests.codes.ok:
+            logger.debug('Response received.')
+            return response
         else:
+            logger.error('A Connection error occurred.')
             raise requests.exceptions.ConnectionError
 
     except requests.exceptions.RequestException:
+        logger.error('There was an ambiguous exception that occurred '
+                     'while handling your request.')
         raise requests.exceptions.RequestException
+
+
+def download_resources(url: str, file_path: str) -> str:
+    response = get_response(url)
+    file_name = generate_file_name(url, file_path)
+    extension = os.path.splitext(file_name)[1]
+
+    if extension == '.html' or extension == '':
+        file_name += '.html'
+        with open(file_name, 'w', encoding="utf-8") as f:
+            f.write(response.text)
+    else:
+        with open(file_name, 'wb') as x:
+            x.write(response.content)
+
+    return file_name
 
 
 def change_tags(
