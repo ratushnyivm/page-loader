@@ -4,7 +4,7 @@ import os
 
 def parse_input():
     parser = argparse.ArgumentParser(
-        description='TODO'
+        description='Downloads web-pages and save locally'
     )
 
     parser.add_argument(
@@ -14,7 +14,7 @@ def parse_input():
 
     parser.add_argument(
         '-o', '--output',
-        help='TODO',
+        help='output dir (default: current directory)',
         default=os.getcwd(),
     )
     args = parser.parse_args()
