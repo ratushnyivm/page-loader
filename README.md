@@ -15,7 +15,7 @@ PageLoader is a command line utility that downloads pages from the internet and 
 
 ## Installation
 
-1. Clone the repository to your computer git clone `https://github.com/ratushnyyvm/python-project-51.git`
+1. Clone the repository to your computer `git clone https://github.com/ratushnyyvm/python-project-51.git`
 2. Go to the project folder `cd python-project-lvl2`
 3. Install the program `make setup`
 
@@ -54,6 +54,7 @@ print(file_path)  # => '/var/tmp/ru-hexlet-io-courses.html'
 ## Demonstration
 
 [![asciicast](https://asciinema.org/a/FMc5h0KycTS4oQhH7NdpUwuOw.svg)](https://asciinema.org/a/FMc5h0KycTS4oQhH7NdpUwuOw)
+
 ---
 
 The third training project from ["Python developer" course](https://ru.hexlet.io/programs/python)
