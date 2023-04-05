@@ -6,7 +6,7 @@ build:
 
 package-install:
 	python3 -m pip uninstall hexlet-code -y
-	python3 -m pip install --user dist/*.whl
+	python3 -m pip install dist/*.whl
 
 setup: install build package-install
 
@@ -17,7 +17,7 @@ test:
 	poetry run pytest
 
 test-cov:
-	poetry run pytest --cov
+	poetry run pytest --cov=page_loader
 
 test-coverage:
 	poetry run pytest --cov=page_loader --cov-report xml
