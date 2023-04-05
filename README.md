@@ -3,7 +3,7 @@
 # Page Loader
 
 [![hexlet-check](https://github.com/ratushnyyvm/page-loader/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ratushnyyvm/page-loader/actions/workflows/hexlet-check.yml)
-[![lint and test](https://github.com/ratushnyyvm/page-loader/actions/workflows/page-loader-CI.yml/badge.svg)](https://github.com/ratushnyyvm/page-loader/actions/workflows/gendiff-CI.yml)
+[![lint and test](https://github.com/ratushnyyvm/page-loader/actions/workflows/page-loader-CI.yml/badge.svg)](https://github.com/ratushnyyvm/page-loader/actions/workflows/page-loader-CI.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7511786d12e08e3d6983/maintainability)](https://codeclimate.com/github/ratushnyyvm/page-loader/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/7511786d12e08e3d6983/test_coverage)](https://codeclimate.com/github/ratushnyyvm/page-loader/test_coverage)
 
